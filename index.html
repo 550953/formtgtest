@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Тест анкеты</title>
+</head>
+<body>
+  <form id="myForm">
+    <label>Есть ли VPS?</label><br>
+    <input type="radio" name="vps" value="Да"> Да
+    <input type="radio" name="vps" value="Нет"> Нет<br><br>
+
+    <label>Комментарий:</label><br>
+    <textarea name="comment"></textarea><br><br>
+
+    <button type="submit">Отправить</button>
+  </form>
+  <p id="status"></p>
+
+  <script>
+    document.getElementById('myForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const answers = Object.fromEntries(formData.entries());
+
+      const resp = await fetch('https://form-submit.550953.workers.dev/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ form: 'formtgtest', answers })
+      });
+
+      document.getElementById('status').innerText = resp.ok ? 'Отправлено!' : 'Ошибка';
+    });
+  </script>
+</body>
+</html>
