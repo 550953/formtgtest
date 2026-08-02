@@ -1,0 +1,105 @@
+{
+  "form_id": "3xui-setup-2026",
+  "title": "Уточнения по настройке 3X-UI",
+  "intro": "Привет! Чтобы я сразу сделал всё как нужно и не пришлось потом переделывать — ответь, пожалуйста, на несколько вопросов. Займёт 3–4 минуты. Версия панели v26.7.28.",
+  "sections": [
+    {
+      "title": "Доступ к серверу",
+      "icon": "🖥",
+      "fields": [
+        { "id": "has_vps", "type": "radio", "label": "Есть ли у тебя уже VPS/сервер?", "required": true,
+          "options": ["Да", "Нет", "Будет позже"] },
+        { "id": "access_method", "type": "radio", "label": "Как передашь доступ?", "required": true,
+          "options": ["Пароль", "SSH-ключ", "Через Telegram", "Другое"] },
+        { "id": "os", "type": "radio", "label": "Какая операционная система?", "required": true,
+          "options": ["Ubuntu 22.04", "Ubuntu 24.04", "Debian 12", "Другая (напиши какая)"] },
+        { "id": "server_state", "type": "radio", "label": "Сервер чистый или на нём уже что-то установлено?", "required": true,
+          "options": ["Чистый", "Уже есть панель", "Есть nginx/apache/docker", "Не знаю"] }
+      ]
+    },
+    {
+      "title": "Домен и SSL",
+      "icon": "🌐",
+      "fields": [
+        { "id": "has_domain", "type": "radio", "label": "Есть ли домен, который нужно привязать?", "required": true,
+          "options": ["Да", "Нет, работаем по IP"] },
+        { "id": "ssl_panel", "type": "radio", "label": "Нужен ли SSL-сертификат (Let's Encrypt) для панели?", "required": true,
+          "options": ["Да", "Нет", "Как лучше — решай сам"] },
+        { "id": "ssl_inbounds", "type": "radio", "label": "Нужен ли SSL для самих инбаундов (протоколов)?", "required": true,
+          "options": ["Да", "Нет"] }
+      ]
+    },
+    {
+      "title": "Что именно нужно сделать",
+      "icon": "🛠",
+      "fields": [
+        { "id": "panel_state", "type": "radio", "label": "Панель уже установлена или ставить с нуля?", "required": true,
+          "options": ["Ставить с нуля", "Уже установлена"] },
+        { "id": "panel_update", "type": "radio", "label": "Можно ли обновлять панель до актуальной?", "required": true,
+          "options": ["Да, обновляй", "Нет, не трогай версию"] },
+        { "id": "protocols", "type": "checkbox", "label": "Какие протоколы нужны?", "required": true,
+          "options": ["VLESS + Reality (рекомендую)", "VLESS + WebSocket + TLS", "Trojan", "Hysteria2", "Shadowsocks", "Другое (укажи)"] },
+        { "id": "clients_count", "type": "number", "label": "Сколько клиентов/пользователей нужно создать сразу?", "required": true,
+          "placeholder": "Число" },
+        { "id": "limits", "type": "checkbox", "label": "Нужны ли лимиты?", "required": true,
+          "options": ["Без лимитов", "Лимит трафика", "Срок действия", "Ограничение по количеству IP", "Другое"] },
+        { "id": "limits_details", "type": "textarea", "label": "Опиши лимиты подробнее", "required": true,
+          "placeholder": "Пример: 100GB, до 1 января и т.д." }
+      ]
+    },
+    {
+      "title": "Настройка клиента",
+      "icon": "📱",
+      "fields": [
+        { "id": "client_meaning", "type": "radio", "label": "Что ты имеешь в виду под «настроить клиент»?", "required": true,
+          "options": ["Просто выдать готовые ссылки / QR-коды / подписку", "Помочь установить и настроить приложение на телефоне/ПК", "И то, и другое"] },
+        { "id": "devices", "type": "checkbox", "label": "На каких устройствах будут пользоваться?", "required": true,
+          "options": ["Android", "iOS", "Windows", "macOS", "Linux"] },
+        { "id": "app_preferences", "type": "text", "label": "Есть ли предпочтения по приложениям?", "required": false,
+          "placeholder": "Hiddify, v2rayNG, Streisand, Nekobox и т.д." }
+      ]
+    },
+    {
+      "title": "Безопасность и доступ к панели",
+      "icon": "🔒",
+      "fields": [
+        { "id": "panel_path", "type": "text", "label": "Порт и путь к панели — сделать случайными или укажи свои?", "required": true,
+          "placeholder": "Случайные (рекомендую) или твой вариант" },
+        { "id": "panel_creds", "type": "text", "label": "Логин и пароль от панели — сгенерировать или дать свои?", "required": true,
+          "placeholder": "Сгенерировать (рекомендую) или укажи свои" },
+        { "id": "tg_bot", "type": "radio", "label": "Нужен ли Telegram-бот для управления панелью и уведомлений?", "required": true,
+          "options": ["Да, нужен", "Нет, не нужно"] },
+        { "id": "firewall", "type": "radio", "label": "Нужно ли настраивать firewall и fail2ban?", "required": true,
+          "options": ["Да, обязательно", "Нет, не нужно"] },
+        { "id": "panel_access", "type": "radio", "label": "Панель должна быть доступна только с определённых IP или открыта всем?", "required": true,
+          "options": ["Открыта всем", "Только с моих IP (укажу)"] }
+      ]
+    },
+    {
+      "title": "Дополнительно",
+      "icon": "🚀",
+      "fields": [
+        { "id": "extra_features", "type": "textarea", "label": "Нужны ли какие-то особые фичи?", "required": false,
+          "placeholder": "Напиши, если есть пожелания" },
+        { "id": "reality_mask", "type": "text", "label": "Есть ли требования по маскировке Reality (конкретные dest/SNI)?", "required": false,
+          "placeholder": "Если нет — оставь пустым, подберу сам" },
+        { "id": "deadline", "type": "radio", "label": "Когда нужен результат?", "required": true,
+          "options": ["Сегодня", "Завтра", "В течение 2–3 дней", "Без жёстких сроков"] },
+        { "id": "handoff_format", "type": "radio", "label": "Как удобнее принимать работу?", "required": true,
+          "options": ["Просто доступы + скриншоты", "Краткая текстовая инструкция", "Видео-инструкция", "Всё вместе"] }
+      ]
+    },
+    {
+      "title": "Финал",
+      "icon": "🙌",
+      "fields": [
+        { "id": "final_comment", "type": "textarea", "label": "Есть ли ещё что-то важное, о чём я должен знать?", "required": true,
+          "placeholder": "Твой комментарий..." },
+        { "id": "name", "type": "text", "label": "Как к тебе обращаться?", "required": false,
+          "placeholder": "Имя" },
+        { "id": "screenshot", "type": "file", "label": "Можешь прикрепить скриншоты текущего состояния сервера или панели", "required": true,
+          "note": "TODO: загрузка в Backblaze B2 ещё не подключена — сейчас поле только для вида, файл не отправляется" }
+      ]
+    }
+  ]
+}

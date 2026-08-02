@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3X-UI · Soft UI</title>
+<style>
+  :root {
+    --bg: #e9edf3;
+    --shadow-light: #ffffff;
+    --shadow-dark: #c4cbd8;
+    --accent: #6f7bf7;
+    --text: #2b2f3a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    margin: 0;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 2.5rem 1rem 4rem; }
+  h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+  .intro { color: #6b7280; margin-bottom: 2rem; font-size: .95rem; }
+  .section {
+    background: var(--bg);
+    border-radius: 20px;
+    padding: 1.5rem 1.5rem 0.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+  }
+  .section h3 { font-size: 1.05rem; margin: 0 0 1rem; }
+  .field { margin-bottom: 1.2rem; }
+  .field label.title { display:block; font-weight:600; font-size:.9rem; margin-bottom:.5rem; }
+  input[type=text], input[type=number], textarea, input[type=file] {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: .7rem .9rem;
+    background: var(--bg);
+    box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+    font-size: .9rem;
+    color: var(--text);
+  }
+  textarea { resize: vertical; }
+  .opt {
+    display: inline-flex; align-items: center; gap: .4rem;
+    padding: .5rem .9rem; margin: .25rem .4rem .25rem 0;
+    border-radius: 999px; font-size: .85rem; cursor: pointer;
+    background: var(--bg);
+    box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+  }
+  .opt input { accent-color: var(--accent); }
+  button[type=submit] {
+    width: 100%; padding: .9rem; border: none; border-radius: 14px;
+    background: var(--accent); color: #fff; font-weight: 600; font-size: 1rem;
+    box-shadow: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
+    cursor: pointer;
+  }
+  .todo-note { font-size: .75rem; color: #d9534f; margin-top: .4rem; }
+  #status { text-align:center; margin-top: 1rem; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script src="render-core.js"></script>
+<script>
+const adapter = {
+  themeName: "softui",
+  header(schema) {
+    return `<h1>${schema.title}</h1><p class="intro">${schema.intro}</p>`;
+  },
+  sectionStart(section) {
+    return `<div class="section"><h3>${section.icon} ${section.title}</h3><div data-fields></div></div>`;
+  },
+  radio(f) {
+    return `<div class="field">
+      <label class="title">${f.label}${f.required ? " *" : ""}</label>
+      ${f.options.map(o => `<label class="opt"><input type="radio" name="${f.id}" value="${o}" ${f.required ? "required" : ""}> ${o}</label>`).join("")}
+    </div>`;
+  },
+  checkbox(f) {
+    return `<div class="field">
+      <label class="title">${f.label}${f.required ? " *" : ""}</label>
+      ${f.options.map(o => `<label class="opt"><input type="checkbox" name="${f.id}" value="${o}"> ${o}</label>`).join("")}
+    </div>`;
+  },
+  text(f) {
+    return `<div class="field"><label class="title">${f.label}${f.required ? " *" : ""}</label>
+      <input type="text" name="${f.id}" placeholder="${f.placeholder || ""}" ${f.required ? "required" : ""}></div>`;
+  },
+  number(f) {
+    return `<div class="field"><label class="title">${f.label}${f.required ? " *" : ""}</label>
+      <input type="number" name="${f.id}" placeholder="${f.placeholder || ""}" ${f.required ? "required" : ""}></div>`;
+  },
+  textarea(f) {
+    return `<div class="field"><label class="title">${f.label}${f.required ? " *" : ""}</label>
+      <textarea rows="3" name="${f.id}" placeholder="${f.placeholder || ""}" ${f.required ? "required" : ""}></textarea></div>`;
+  },
+  file(f) {
+    return `<div class="field"><label class="title">${f.label}${f.required ? " *" : ""}</label>
+      <input type="file" name="${f.id}">
+      <div class="todo-note">⚠ ${f.note}</div></div>`;
+  },
+  submitButton() {
+    return `<button type="submit">Подтвердить</button><p id="status"></p>`;
+  }
+};
+renderForm("app", adapter);
+</script>
+</body>
+</html>
