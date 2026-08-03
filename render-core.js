@@ -50,26 +50,35 @@ async function renderForm(rootId, adapter) {
 
   formEl.addEventListener("submit", async (e) => {
     e.preventDefault();
+    const statusEl = document.getElementById("status");
     const answers = {};
-    schema.sections.forEach((s) =>
-      s.fields.forEach((f) => {
+    const allFields = schema.sections.flatMap((s) => s.fields);
+
+    try {
+      for (const f of allFields) {
         if (f.type === "checkbox") {
           answers[f.id] = Array.from(
             formEl.querySelectorAll(`input[name="${f.id}"]:checked`)
           ).map((el) => el.value);
         } else if (f.type === "file") {
-          // TODO: аплоуд файла — пока не отправляем, только фиксируем что поле было
           const input = formEl.querySelector(`input[name="${f.id}"]`);
-          answers[f.id] = input && input.files.length ? `[файл: ${input.files[0].name}] (TODO: не загружен)` : "(не прикреплён)";
+          if (input && input.files.length) {
+            if (statusEl) statusEl.textContent = "Загружаю файл...";
+            const fd = new FormData();
+            fd.append("file", input.files[0]);
+            const upResp = await fetch(WORKER_URL + "upload", { method: "POST", body: fd });
+            const upData = await upResp.json();
+            answers[f.id] = upResp.ok ? upData.url : `(ошибка загрузки: ${upData.error || "неизвестно"})`;
+          } else {
+            answers[f.id] = "(не прикреплён)";
+          }
         } else {
           const el = formEl.querySelector(`[name="${f.id}"]`);
           answers[f.id] = el ? el.value : "";
         }
-      })
-    );
+      }
 
-    const statusEl = document.getElementById("status");
-    try {
+      if (statusEl) statusEl.textContent = "Отправляю анкету...";
       const resp = await fetch(WORKER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,7 +86,7 @@ async function renderForm(rootId, adapter) {
       });
       if (statusEl) statusEl.textContent = resp.ok ? "Отправлено! 🙌" : "Ошибка отправки";
     } catch (err) {
-      if (statusEl) statusEl.textContent = "Ошибка сети: " + err.message;
+      if (statusEl) statusEl.textContent = "Ошибка: " + err.message;
     }
   });
 }
