@@ -4,8 +4,8 @@
 
 const WORKER_URL = "https://form-submit.550953.workers.dev/";
 
-async function loadSchema() {
-  const res = await fetch("./schema.json");
+async function loadSchema(schemaPath) {
+  const res = await fetch(schemaPath || "./schema.json");
   return res.json();
 }
 
@@ -27,8 +27,8 @@ function buildField(field, adapter) {
   }
 }
 
-async function renderForm(rootId, adapter) {
-  const schema = await loadSchema();
+async function renderForm(rootId, adapter, schemaPath) {
+  const schema = await loadSchema(schemaPath);
   const root = document.getElementById(rootId);
   root.innerHTML = adapter.header(schema);
 
