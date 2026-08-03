@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Продвижение товара · Уточнение ТЗ</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta20/dist/css/tabler.min.css">
+<style>
+  body { background:#f4f6fa; }
+  .page-wrapper { max-width: 760px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+  .section-card { margin-bottom: 1.5rem; }
+  .todo-note { font-size: .8rem; color:#0c5460; background:#e8f6f8; border:1px dashed #4dabb5; padding:.4rem .6rem; border-radius:.375rem; margin-top:.4rem; }
+</style>
+</head>
+<body>
+<div class="page-wrapper" id="app"></div>
+<script src="/render-core.js"></script>
+<script>
+const adapter = {
+  themeName: "tabler",
+  header(schema) {
+    return `
+      <div class="mb-4">
+        <h1 class="h2 mb-1">${schema.title}</h1>
+        <p class="text-secondary">${schema.intro}</p>
+      </div>`;
+  },
+  sectionStart(section) {
+    return `
+      <div class="card section-card">
+        <div class="card-header"><h3 class="card-title">${section.icon} ${section.title}</h3></div>
+        <div class="card-body" data-fields></div>
+      </div>`;
+  },
+  radio(f) {
+    return `<div class="mb-3">
+      <label class="form-label">${f.label}${f.required ? " *" : ""}</label>
+      ${f.options.map(o => `
+        <label class="form-check">
+          <input class="form-check-input" type="radio" name="${f.id}" value="${o}" ${f.required ? "required" : ""}>
+          <span class="form-check-label">${o}</span>
+        </label>`).join("")}
+    </div>`;
+  },
+  checkbox(f) {
+    return `<div class="mb-3">
+      <label class="form-label">${f.label}${f.required ? " *" : ""}</label>
+      ${f.options.map(o => `
+        <label class="form-check">
+          <input class="form-check-input" type="checkbox" name="${f.id}" value="${o}">
+          <span class="form-check-label">${o}</span>
+        </label>`).join("")}
+    </div>`;
+  },
+  text(f) {
+    return `<div class="mb-3">
+      <label class="form-label">${f.label}${f.required ? " *" : ""}</label>
+      <input type="text" class="form-control" name="${f.id}" placeholder="${f.placeholder || ""}" ${f.required ? "required" : ""}>
+    </div>`;
+  },
+  number(f) {
+    return `<div class="mb-3">
+      <label class="form-label">${f.label}${f.required ? " *" : ""}</label>
+      <input type="number" class="form-control" name="${f.id}" placeholder="${f.placeholder || ""}" ${f.required ? "required" : ""}>
+    </div>`;
+  },
+  textarea(f) {
+    return `<div class="mb-3">
+      <label class="form-label">${f.label}${f.required ? " *" : ""}</label>
+      <textarea class="form-control" rows="3" name="${f.id}" placeholder="${f.placeholder || ""}" ${f.required ? "required" : ""}></textarea>
+    </div>`;
+  },
+  file(f) {
+    return `<div class="mb-3">
+      <label class="form-label">${f.label}${f.required ? " *" : ""}</label>
+      <input type="file" class="form-control" name="${f.id}">
+      ${f.note ? `<div class="todo-note">ℹ ${f.note}</div>` : ""}
+    </div>`;
+  },
+  submitButton() {
+    return `<button type="submit" class="btn btn-primary w-100">Отправить ответы</button>
+      <p id="status" class="text-center mt-3 fw-bold"></p>`;
+  }
+};
+renderForm("app", adapter);
+</script>
+</body>
+</html>
