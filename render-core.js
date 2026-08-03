@@ -2,7 +2,7 @@
 // Общий движок: тянет schema.json, рендерит через переданный "адаптер" темы,
 // собирает ответы и шлёт на воркер. Конкретная разметка/классы — в адаптере каждой страницы.
 
-const WORKER_URL = "https://form-submit.550953.workers.dev/";
+const WORKER_URL = "https://form-api.prazdnik-express.ru/";
 
 async function loadSchema(schemaPath) {
   const res = await fetch(schemaPath || "./schema.json");
