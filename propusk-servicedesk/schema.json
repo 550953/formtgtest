@@ -1,0 +1,53 @@
+{
+  "form_id": "propusk-servicedesk-2026",
+  "title": "Заявка на пропуск — обработка",
+  "intro": "Форма сопровождает заявку от входящего письма клиента до закрытия: фиксируем суть обращения, статус обработки и подтверждение выполнения.",
+  "sections": [
+    {
+      "title": "Входящая заявка",
+      "icon": "📥",
+      "fields": [
+        { "id": "sender_contact", "type": "text", "label": "От кого пришло письмо (имя / email)", "required": true,
+          "placeholder": "Иван Иванов, ivan@company.ru" },
+        { "id": "request_text", "type": "textarea", "label": "Текст обращения — что нужно организовать", "required": true,
+          "placeholder": "Например: нужен пропуск на посетителя" },
+        { "id": "pass_for_name", "type": "text", "label": "ФИО, на кого нужен пропуск", "required": true,
+          "placeholder": "Пупкин Василий Иванович" },
+        { "id": "pass_period", "type": "text", "label": "Дата / период действия пропуска", "required": true,
+          "placeholder": "Например: 12.08.2026 или на неделю" },
+        { "id": "comment_incoming", "type": "textarea", "label": "Дополнительный комментарий к заявке", "required": false,
+          "placeholder": "Что ещё важно учесть" }
+      ]
+    },
+    {
+      "title": "Обработка",
+      "icon": "⚙️",
+      "fields": [
+        { "id": "status", "type": "radio", "label": "Текущий статус заявки", "required": true,
+          "options": ["Новая", "В работе", "Ожидает уточнения от клиента", "Выполнена"] },
+        { "id": "assignee", "type": "text", "label": "Кто взял заявку в работу", "required": true,
+          "placeholder": "Имя сотрудника" },
+        { "id": "reply_text", "type": "textarea", "label": "Текст ответного письма клиенту", "required": true,
+          "placeholder": "Например: пропуск на Василия Пупкина оформляется, будет готов к..." },
+        { "id": "send_reply", "type": "checkbox", "label": "Действие", "required": false,
+          "options": ["Отправить это письмо клиенту сейчас"] }
+      ]
+    },
+    {
+      "title": "Завершение",
+      "icon": "✅",
+      "fields": [
+        { "id": "proof_photo_1", "type": "file", "label": "Фото подтверждения выполнения — 1", "required": true,
+          "note": "Файл хранится в защищённом облаке, данные автоматически удаляются через 7 дней" },
+        { "id": "proof_photo_2", "type": "file", "label": "Фото подтверждения выполнения — 2", "required": true,
+          "note": "Файл хранится в защищённом облаке, данные автоматически удаляются через 7 дней" },
+        { "id": "completion_comment", "type": "textarea", "label": "Комментарий о выполнении", "required": false,
+          "placeholder": "Кратко — что сделано" },
+        { "id": "final_reply_text", "type": "textarea", "label": "Текст финального письма отправителю", "required": true,
+          "placeholder": "Например: пропуск оформлен, прилагаем фото" },
+        { "id": "send_final_reply", "type": "checkbox", "label": "Действие", "required": false,
+          "options": ["Отправить финальный ответ отправителю по почте и закрыть заявку"] }
+      ]
+    }
+  ]
+}
