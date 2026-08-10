@@ -1,0 +1,115 @@
+{
+  "form_id": "bitrix-partnerka-brief-2026",
+  "title": "Бриф: интеграция Bitrix24 ↔ Partnerka24 («Классный мастер»)",
+  "intro": "Уточняющие вопросы по ТЗ программы «Партнёр» — комиссии, лиды, брони, техническая интеграция, чаты Мах, отчётность, права доступа, обучение, документооборот и сроки. Отвечайте свободным текстом, где не знаете ответа — так и напишите.",
+  "sections": [
+    {
+      "title": "Комиссии и расчёты",
+      "icon": "💰",
+      "fields": [
+        { "id": "comm_base", "type": "textarea", "label": "От какой суммы считаются 5% / 3% / 7% — от полной суммы сделки, после вычета расходов, или от «чистой» выручки?", "required": true },
+        { "id": "comm_no_ogp", "type": "textarea", "label": "Если у партнёра нет ОГП — доля 3% просто не начисляется, или перераспределяется (кому)?", "required": true },
+        { "id": "comm_multi_ogp", "type": "textarea", "label": "Может ли у одного партнёра быть несколько ОГП одновременно, или строго один?", "required": true },
+        { "id": "comm_refund", "type": "textarea", "label": "Если сделка отменена / деньги возвращены клиенту уже после выплаты комиссий — как оформляется возврат (сторно, удержание из будущих выплат, штраф)?", "required": true },
+        { "id": "comm_partial", "type": "textarea", "label": "Если оплата идёт частями (аванс + постоплата) — комиссия считается по каждому платежу или только после полной оплаты?", "required": true },
+        { "id": "comm_currency", "type": "textarea", "label": "Есть ли различия ставок 5/3/7% по регионам или валютам, или ставка едина для всех?", "required": false }
+      ]
+    },
+    {
+      "title": "Квалифицированный лид",
+      "icon": "✅",
+      "fields": [
+        { "id": "lead_qualified_def", "type": "textarea", "label": "Какие именно критерии делают лид «квалифицированным» (обязательные поля, статус, подтверждение)?", "required": true },
+        { "id": "lead_qualified_who", "type": "textarea", "label": "Кто присваивает статус «квалифицированный» — автоматика по чек-листу или вручную менеджер/руководитель?", "required": true },
+        { "id": "lead_duplicate", "type": "textarea", "label": "Что считается дублем лида (тот же клиент от другого партнёра, повторное обращение через N дней)? Кому идёт комиссия в этом случае?", "required": true },
+        { "id": "lead_reject", "type": "textarea", "label": "Если лид отклонён / не прошёл квалификацию — партнёр получает уведомление, в каком виде?", "required": false }
+      ]
+    },
+    {
+      "title": "Бронирование и снятие брони",
+      "icon": "🔒",
+      "fields": [
+        { "id": "booking_expire_flow", "type": "textarea", "label": "По истечении 12 часов лид доступен всем менеджерам сразу, или есть очередь / приоритет?", "required": true },
+        { "id": "booking_vacation", "type": "textarea", "label": "Что происходит с активной бронью, если менеджер в отпуске / на больничном / уволен?", "required": true },
+        { "id": "booking_remove_who", "type": "textarea", "label": "Кто инициирует снятие брони — только руководитель вручную, или система автоматически по метрикам?", "required": true },
+        { "id": "booking_test_period", "type": "textarea", "label": "По каким критериям принимается финальное решение в тестовый период (7–14 дней) — снять бронь или оставить?", "required": true },
+        { "id": "booking_reassign", "type": "textarea", "label": "После снятия брони партнёр автоматически уходит к конкретному менеджеру, или в общий пул?", "required": true },
+        { "id": "booking_history", "type": "textarea", "label": "Нужно ли хранить историю всех переназначений партнёра (какие менеджеры и когда были закреплены)?", "required": false }
+      ]
+    },
+    {
+      "title": "Техническая интеграция",
+      "icon": "🔌",
+      "fields": [
+        { "id": "tech_webhook_auth", "type": "textarea", "label": "Как защищён webhook Partnerka24 → Bitrix24 — секретный токен, подпись запроса, IP-whitelist?", "required": true },
+        { "id": "tech_idempotency", "type": "textarea", "label": "Как обрабатывается повторная отправка одного и того же лида (защита от задвоения)?", "required": true },
+        { "id": "tech_retry", "type": "textarea", "label": "Сколько попыток retry при неудачной доставке вебхука и с каким интервалом?", "required": true },
+        { "id": "tech_sync_direction", "type": "textarea", "label": "Синхронизация раз в час — только Partnerka24 → Bitrix24, или статусы сделки идут и обратно?", "required": true },
+        { "id": "tech_fields_format", "type": "textarea", "label": "Есть готовая спецификация форматов полей (телефон, email, даты) для валидации на приёме?", "required": false },
+        { "id": "tech_custom_fields", "type": "textarea", "label": "Кастомные поля (partner_status, manager_booking_status и т.п.) уже созданы в Bitrix24, или создаются в рамках проекта?", "required": true },
+        { "id": "tech_environment", "type": "textarea", "label": "Есть тестовый (staging) контур Bitrix24 и Partnerka24 для отладки перед продакшеном?", "required": true },
+        { "id": "tech_load", "type": "textarea", "label": "Ожидаемый объём лидов в день / месяц — для расчёта нагрузки и лимитов API?", "required": false }
+      ]
+    },
+    {
+      "title": "Интеграция с мессенджером Мах",
+      "icon": "💬",
+      "fields": [
+        { "id": "max_api", "type": "textarea", "label": "У Мах есть официальный Bot API / webhook для встраивания в карточки CRM, или это ручные ссылки?", "required": true },
+        { "id": "max_moderation", "type": "textarea", "label": "Кто модерирует общий чат партнёров и отдельный чат ОГП — конкретные менеджеры или ротация?", "required": true },
+        { "id": "max_logging", "type": "textarea", "label": "Что логируется в карточку сделки — только ссылка на чат, или полный текст переписки и файлы?", "required": true },
+        { "id": "max_deal_chat_create", "type": "textarea", "label": "Чат по сделке создаётся автоматически при переводе лида в сделку, или вручную менеджером?", "required": true },
+        { "id": "max_access", "type": "textarea", "label": "Кто ещё, кроме ответственного менеджера и руководителя, может иметь доступ к чату по сделке (например, бухгалтер)?", "required": false }
+      ]
+    },
+    {
+      "title": "Отчётность и дашборды",
+      "icon": "📊",
+      "fields": [
+        { "id": "report_access", "type": "textarea", "label": "Кто видит какие отчёты — есть ли у партнёра личный кабинет со своей статистикой?", "required": true },
+        { "id": "report_period", "type": "textarea", "label": "Отчёты нужны в реальном времени, или достаточно ежедневного / еженедельного обновления?", "required": true },
+        { "id": "report_export", "type": "textarea", "label": "В каких форматах нужен экспорт (Excel, CSV, PDF, интеграция с BI)?", "required": false },
+        { "id": "report_leaderboard", "type": "textarea", "label": "Лидерборд менеджеров / партнёров виден всем участникам, или только руководству?", "required": true },
+        { "id": "report_history", "type": "textarea", "label": "На какой глубине нужно хранить историю отчётности (сколько месяцев / лет)?", "required": false }
+      ]
+    },
+    {
+      "title": "Права доступа",
+      "icon": "🔑",
+      "fields": [
+        { "id": "access_rate_edit", "type": "textarea", "label": "Кто может менять payout_rate для конкретного партнёра — только руководитель, или ставка фиксирована для всех?", "required": true },
+        { "id": "access_booking_manual", "type": "textarea", "label": "Может ли руководитель вручную назначить / снять бронь в обход стандартного workflow, и логируется ли это?", "required": true },
+        { "id": "access_cross_view", "type": "textarea", "label": "Может ли менеджер видеть сделки / партнёров других менеджеров (например, на время отпуска коллеги)?", "required": true },
+        { "id": "access_admin_scope", "type": "textarea", "label": "Какой объём прав у «Админа CRM» — только структура/поля, или также данные и выплаты?", "required": false }
+      ]
+    },
+    {
+      "title": "Обучение менеджеров",
+      "icon": "🎓",
+      "fields": [
+        { "id": "training_threshold", "type": "textarea", "label": "Какой порог прохождения квиза считается успешным (% правильных ответов)?", "required": true },
+        { "id": "training_fail", "type": "textarea", "label": "Что происходит, если менеджер не прошёл квиз или не уложился в 7 дней?", "required": true },
+        { "id": "training_retrain", "type": "textarea", "label": "Нужно ли периодическое переобучение действующих менеджеров, или обучение только при найме?", "required": false }
+      ]
+    },
+    {
+      "title": "Документооборот",
+      "icon": "📄",
+      "fields": [
+        { "id": "docs_templates", "type": "textarea", "label": "Шаблоны договора / КП / инвойса уже готовы, или их нужно разрабатывать в рамках проекта?", "required": true },
+        { "id": "docs_approval", "type": "textarea", "label": "Нужно ли согласование документа руководителем перед отправкой клиенту, или менеджер отправляет сам?", "required": true },
+        { "id": "docs_esign", "type": "textarea", "label": "Подписание договора — какой сервис электронной подписи используется, или это сканы/бумага?", "required": true },
+        { "id": "docs_storage", "type": "textarea", "label": "Где хранятся подписанные документы — в Bitrix24, во внешнем облаке, или в обеих системах?", "required": false }
+      ]
+    },
+    {
+      "title": "Сроки и приоритеты",
+      "icon": "⏱️",
+      "fields": [
+        { "id": "timeline_priority", "type": "textarea", "label": "Если весь список Quick Wins не укладывается в 1–2 недели — какие 2–3 пункта критичнее всего сделать первыми?", "required": true },
+        { "id": "timeline_budget", "type": "textarea", "label": "Есть ли бюджетный потолок на разработку, который ограничивает объём MID/LONG TERM этапов?", "required": false },
+        { "id": "timeline_stakeholder", "type": "textarea", "label": "Кто финально принимает готовую интеграцию со стороны «Классного мастера» — один человек или несколько согласующих?", "required": true }
+      ]
+    }
+  ]
+}
